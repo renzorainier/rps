@@ -15,7 +15,7 @@ const Play = () => {
         {['rock', 'paper', 'scissors'].map((option) => (
           <button
             key={option}
-            className={`bg-${option === selectedOption ? option : ''}-500 hover:bg-${option === selectedOption ? option : ''}-700 text-white font-bold py-2 px-4 rounded`}
+            className={`bg-${option === selectedOption ? option : ''}-500 hover:bg-${option === selectedOption ? option : ''}-700 font-bold py-2 px-4 rounded`}
             onClick={() => handleOptionClick(option)}
           >
             {option.charAt(0).toUpperCase() + option.slice(1)}
