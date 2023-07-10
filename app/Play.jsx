@@ -26,13 +26,11 @@ const Play = () => {
     const player1DocRef = doc(db, 'rps', 'player1');
     await updateDoc(player1DocRef, {
       p1: "",
-      state: "",
     });
 
     const player2DocRef = doc(db, 'rps', 'player2');
     await updateDoc(player2DocRef, {
       p2: "",
-      p2state: "",
     });
   };
 
