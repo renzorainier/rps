@@ -5,12 +5,12 @@ import { getFirestore } from "firebase/firestore"
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_apiKey,
-  authDomain: process.env.NEXT_PUBLIC_authDomain,
-  projectId: process.env.NEXT_PUBLIC_projectId,
-  storageBucket: process.env.NEXT_PUBLIC_storageBucket,
-  messagingSenderId: process.env.NEXT_PUBLIC_messagingSenderId,
-  appId: process.env.NEXT_PUBLIC_appId
+  apiKey: "AIzaSyA5kxxH8xDqR89l6xMCIyz9Qy0BsdapIps",
+  authDomain: "rpsgame-eae90.firebaseapp.com",
+  projectId: "rpsgame-eae90",
+  storageBucket: "rpsgame-eae90.appspot.com",
+  messagingSenderId: "913151311111",
+  appId: "1:913151311111:web:6b54a7f332e96e9b9259a2"
 };
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
