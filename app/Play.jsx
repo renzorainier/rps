@@ -7,9 +7,8 @@ import {
   onSnapshot,
 } from "firebase/firestore";
 import { db } from "./firebase.js";
-import React, { useState } from 'react';
 
-const RockPaperScissors = () => {
+const Play = () => {
   const [selectedOption, setSelectedOption] = useState(null);
 
   const handleOptionClick = (option) => {
@@ -48,4 +47,4 @@ const RockPaperScissors = () => {
   );
 };
 
-export default RockPaperScissors;
+export default Play;
