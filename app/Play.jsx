@@ -7,12 +7,15 @@ const Play = () => {
   const [player2Option, setPlayer2Option] = useState(null);
   const [player2State, setPlayer2State] = useState(null);
   const [gameResult, setGameResult] = useState(null);
+  const [isGameFinished, setIsGameFinished] = useState(true);
 
   const handleOptionClick = async (option) => {
-    setSelectedOption(option);
+    if (!isGameFinished) {
+      setSelectedOption(option);
 
-    const player1DocRef = doc(db, 'rps', 'player1');
-    await updateDoc(player1DocRef, { p1: option });
+      const player1DocRef = doc(db, 'rps', 'player1');
+      await updateDoc(player1DocRef, { p1: option });
+    }
   };
 
   const handleResetGame = async () => {
@@ -20,6 +23,7 @@ const Play = () => {
     setPlayer2Option(null);
     setPlayer2State(null);
     setGameResult(null);
+    setIsGameFinished(false);
 
     const player1DocRef = doc(db, 'rps', 'player1');
     await updateDoc(player1DocRef, { p1: '' });
@@ -39,6 +43,7 @@ const Play = () => {
         if (selectedOption && data.p2) {
           const winner = determineWinner(selectedOption, data.p2);
           setGameResult(winner);
+          setIsGameFinished(true);
         }
       }
     });
@@ -77,6 +82,7 @@ const Play = () => {
               option === selectedOption ? 'bg-blue-700' : ''
             }`}
             onClick={() => handleOptionClick(option)}
+            disabled={isGameFinished}
           >
             {option.charAt(0).toUpperCase() + option.slice(1)}
           </button>
