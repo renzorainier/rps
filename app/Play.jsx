@@ -64,7 +64,7 @@ const Play = () => {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
-      <div className="text-4xl mb-4">{selectedOption}</div>
+      <div className="text-4xl text-black mb-4">{selectedOption}</div>
       <div className="text-lg mb-4">
         Player 2: {player2Option} {player2State}
       </div>
