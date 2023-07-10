@@ -11,6 +11,9 @@ const Play = () => {
 
   return (
     <div className="flex justify-center items-center h-screen">
+      <div>
+        {selectedOption}
+      </div>
       <div className="space-x-4">
         {['rock', 'paper', 'scissors'].map((option) => (
           <button
