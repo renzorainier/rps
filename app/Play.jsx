@@ -5,8 +5,16 @@ import { db } from './firebase.js';
 const Play = () => {
   const [selectedOption, setSelectedOption] = useState(null);
 
-  const handleOptionClick = (option) => {
+  const handleOptionClick = async (option) => {
     setSelectedOption(option);
+
+    try {
+      const docRef = doc(db, 'rps', 'state', 'player1');
+      await updateDoc(docRef, { option });
+      console.log('Option updated successfully.');
+    } catch (error) {
+      console.error('Error updating option:', error);
+    }
   };
 
   return (
