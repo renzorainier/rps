@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { collection, doc, getDoc, updateDoc, onSnapshot } from 'firebase/firestore';
+import { collection, doc, updateDoc, onSnapshot } from 'firebase/firestore';
 import { db } from './firebase.js';
 
 const Play = () => {
@@ -12,9 +12,7 @@ const Play = () => {
     setSelectedOption(option);
 
     const player1DocRef = doc(db, 'rps', 'player1');
-    await updateDoc(player1DocRef, {
-      p1: option,
-    });
+    await updateDoc(player1DocRef, { p1: option });
   };
 
   const handleResetGame = async () => {
@@ -24,14 +22,10 @@ const Play = () => {
     setGameResult(null);
 
     const player1DocRef = doc(db, 'rps', 'player1');
-    await updateDoc(player1DocRef, {
-      p1: "",
-    });
+    await updateDoc(player1DocRef, { p1: '' });
 
     const player2DocRef = doc(db, 'rps', 'player2');
-    await updateDoc(player2DocRef, {
-      p2: "",
-    });
+    await updateDoc(player2DocRef, { p2: '' });
   };
 
   useEffect(() => {
@@ -42,7 +36,6 @@ const Play = () => {
         setPlayer2Option(data.p2);
         setPlayer2State(data.p2state);
 
-        // Compare the options to determine the winner
         if (selectedOption && data.p2) {
           const winner = determineWinner(selectedOption, data.p2);
           setGameResult(winner);
@@ -56,7 +49,6 @@ const Play = () => {
   }, [selectedOption]);
 
   const determineWinner = (option1, option2) => {
-    // Rock beats scissors, scissors beat paper, paper beats rock
     if (option1 === option2) {
       return 'Draw';
     } else if (
@@ -71,17 +63,19 @@ const Play = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center h-screen">
-      <div className="mb-4 text-4xl">{selectedOption}</div>
-      <div className="mb-4 text-lg">
+    <div className="flex flex-col items-center justify-center h-screen">
+      <div className="text-4xl mb-4">{selectedOption}</div>
+      <div className="text-lg mb-4">
         Player 2: {player2Option} {player2State}
       </div>
-      {gameResult && <div className="mb-4 text-lg">{gameResult}</div>}
+      {gameResult && <div className="text-lg mb-4">{gameResult}</div>}
       <div className="space-x-4">
         {['rock', 'paper', 'scissors'].map((option) => (
           <button
             key={option}
-            className={`bg-${option === selectedOption ? option : ''}-500 hover:bg-${option === selectedOption ? option : ''}-700 font-bold py-2 px-4 rounded`}
+            className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ${
+              option === selectedOption ? 'bg-blue-700' : ''
+            }`}
             onClick={() => handleOptionClick(option)}
           >
             {option.charAt(0).toUpperCase() + option.slice(1)}
