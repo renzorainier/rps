@@ -1,26 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { collection, doc, getDoc, updateDoc, onSnapshot } from 'firebase/firestore';
 import { db } from './firebase.js';
 
 const Play = () => {
   const [selectedOption, setSelectedOption] = useState(null);
+  const [player2Option, setPlayer2Option] = useState(null);
+  const [player2State, setPlayer2State] = useState(null);
 
   const handleOptionClick = async (option) => {
     setSelectedOption(option);
 
-    try {
-      const docRef = doc(db, 'rps', 'state', 'player1');
-      await updateDoc(docRef, { option });
-      console.log('Option updated successfully.');
-    } catch (error) {
-      console.error('Error updating option:', error);
-    }
+    const player1DocRef = doc(db, 'rps', 'player1');
+    await updateDoc(player1DocRef, {
+      p1: option,
+    });
   };
+
+  useEffect(() => {
+    const player2DocRef = doc(db, 'rps', 'player2');
+    const unsubscribe = onSnapshot(player2DocRef, (doc) => {
+      if (doc.exists()) {
+        const data = doc.data();
+        setPlayer2Option(data.p2);
+        setPlayer2State(data.p2state);
+      }
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   return (
     <div className="flex justify-center items-center h-screen">
       <div>
         {selectedOption}
+      </div>
+      <div>
+{player2Option} {player2State}
       </div>
       <div className="space-x-4">
         {['rock', 'paper', 'scissors'].map((option) => (
