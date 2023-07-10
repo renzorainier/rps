@@ -32,12 +32,10 @@ const Play = () => {
   }, []);
 
   return (
-    <div className="flex justify-center items-center h-screen">
-      <div>
-        {selectedOption}
-      </div>
-      <div>
-{player2Option} {player2State}
+    <div className="flex flex-col justify-center items-center h-screen">
+      <div className="mb-4 text-4xl">{selectedOption}</div>
+      <div className="mb-4 text-lg">
+        Player 2: {player2Option} {player2State}
       </div>
       <div className="space-x-4">
         {['rock', 'paper', 'scissors'].map((option) => (
@@ -52,6 +50,6 @@ const Play = () => {
       </div>
     </div>
   );
-};
+  };
 
 export default Play;
