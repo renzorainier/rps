@@ -17,6 +17,25 @@ const Play = () => {
     });
   };
 
+  const handleResetGame = async () => {
+    setSelectedOption(null);
+    setPlayer2Option(null);
+    setPlayer2State(null);
+    setGameResult(null);
+
+    const player1DocRef = doc(db, 'rps', 'player1');
+    await updateDoc(player1DocRef, {
+      p1: "",
+      state: "",
+    });
+
+    const player2DocRef = doc(db, 'rps', 'player2');
+    await updateDoc(player2DocRef, {
+      p2: "",
+      p2state: "",
+    });
+  };
+
   useEffect(() => {
     const player2DocRef = doc(db, 'rps', 'player2');
     const unsubscribe = onSnapshot(player2DocRef, (doc) => {
@@ -71,6 +90,12 @@ const Play = () => {
           </button>
         ))}
       </div>
+      <button
+        className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mt-4"
+        onClick={handleResetGame}
+      >
+        Reset Game
+      </button>
     </div>
   );
 };
