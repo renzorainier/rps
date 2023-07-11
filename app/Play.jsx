@@ -7,7 +7,7 @@ const Play = () => {
   const [player2Option, setPlayer2Option] = useState(null);
   const [player2State, setPlayer2State] = useState(null);
   const [gameResult, setGameResult] = useState(null);
-  const [isGameFinished, setIsGameFinished] = useState(true);
+  const [isGameFinished, setIsGameFinished] = useState(false);
 
   const handleOptionClick = async (option) => {
     if (!isGameFinished) {
