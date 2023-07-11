@@ -7,15 +7,14 @@ const Play = () => {
   const [player2Option, setPlayer2Option] = useState(null);
   const [player2State, setPlayer2State] = useState(null);
   const [gameResult, setGameResult] = useState(null);
-  const [isGameFinished, setIsGameFinished] = useState(false);
+  const [disabled, setDisabled] = useState(false); // New disabled state variable
 
   const handleOptionClick = async (option) => {
-    if (!isGameFinished) {
-      setSelectedOption(option);
+    setSelectedOption(option);
 
-      const player1DocRef = doc(db, 'rps', 'player1');
-      await updateDoc(player1DocRef, { p1: option });
-    }
+    const player1DocRef = doc(db, 'rps', 'player1');
+    await updateDoc(player1DocRef, { p1: option });
+    setDisabled(true); // Disable the button after clicking
   };
 
   const handleResetGame = async () => {
@@ -23,7 +22,7 @@ const Play = () => {
     setPlayer2Option(null);
     setPlayer2State(null);
     setGameResult(null);
-    setIsGameFinished(false);
+    setDisabled(false); // Enable the button on game reset
 
     const player1DocRef = doc(db, 'rps', 'player1');
     await updateDoc(player1DocRef, { p1: '' });
@@ -43,7 +42,7 @@ const Play = () => {
         if (selectedOption && data.p2) {
           const winner = determineWinner(selectedOption, data.p2);
           setGameResult(winner);
-          setIsGameFinished(true);
+          setDisabled(false); // Enable the button after receiving new game result
         }
       }
     });
@@ -82,7 +81,7 @@ const Play = () => {
               option === selectedOption ? 'bg-blue-700' : ''
             }`}
             onClick={() => handleOptionClick(option)}
-            disabled={isGameFinished}
+            disabled={disabled} // Add disabled attribute to the button
           >
             {option.charAt(0).toUpperCase() + option.slice(1)}
           </button>
