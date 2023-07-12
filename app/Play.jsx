@@ -36,16 +36,19 @@ const Play = () => {
         if (selectedOption && data.p2 && !gameResult) {
           const winner = determineWinner(selectedOption, data.p2);
           setGameResult(winner);
-          setPreviousResults((prevResults) => [...prevResults, winner]);
           handleUpdateWinner(winner);
         }
       }
     });
 
+    if (gameResult) {
+      setPreviousResults((prevResults) => [...prevResults, gameResult]);
+    }
+
     return () => {
       unsubscribe();
     };
-  }, [selectedOption]);
+  }, [selectedOption, gameResult]);
 
   const determineWinner = (option1, option2) => {
     if (option1 === option2) {
