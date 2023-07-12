@@ -45,7 +45,7 @@ const Play = () => {
     return () => {
       unsubscribe();
     };
-  }, [selectedOption, gameResult]);
+  }, [selectedOption]);
 
   const determineWinner = (option1, option2) => {
     if (option1 === option2) {
