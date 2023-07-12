@@ -21,7 +21,7 @@ const Play = () => {
     setGameResult(null);
     setDisabled(false);
 
-    const player2DocRef = doc(db, "rps", "player2");
+    const player2DocRef = doc(db, "rps", "state");
     await updateDoc(player2DocRef, { p2: "" });
   };
 
