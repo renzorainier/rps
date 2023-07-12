@@ -13,6 +13,9 @@ const Play = () => {
     if (!disabled) {
       setSelectedOption(option);
       setDisabled(true);
+
+      const player1DocRef = doc(db, "rps", "player1");
+      await updateDoc(player1DocRef, { p1: option });
     }
   };
 
@@ -20,7 +23,11 @@ const Play = () => {
     setSelectedOption(null);
     setPlayer2Option(null);
     setPlayer2State(null);
+    setGameResult(null);
     setDisabled(false);
+
+    const player1DocRef = doc(db, "rps", "player1");
+    await updateDoc(player1DocRef, { p1: "" });
 
     const player2DocRef = doc(db, "rps", "player2");
     await updateDoc(player2DocRef, { p2: "", p2state: "" });
@@ -32,11 +39,13 @@ const Play = () => {
       if (doc.exists()) {
         const data = doc.data();
         setPlayer2Option(data.p2);
+        setPlayer2State(data.p2state);
 
         if (selectedOption && data.p2) {
           const winner = determineWinner(selectedOption, data.p2);
           setGameResult(winner);
           setDisabled(false);
+          updateWinner(winner);
           handleResetGame();
         }
       }
@@ -61,6 +70,11 @@ const Play = () => {
     }
   };
 
+  const updateWinner = async (winner) => {
+    const stateDocRef = doc(db, "rps", "state");
+    await updateDoc(stateDocRef, { winner });
+  };
+
   return (
     <div className="flex flex-col items-center justify-center h-screen">
       <div className="text-4xl text-black mb-4">{selectedOption}</div>
@@ -74,7 +88,8 @@ const Play = () => {
               option === selectedOption ? "bg-blue-700" : ""
             }`}
             onClick={() => handleOptionClick(option)}
-            disabled={disabled}>
+            disabled={disabled}
+          >
             {option.charAt(0).toUpperCase() + option.slice(1)}
           </button>
         ))}
