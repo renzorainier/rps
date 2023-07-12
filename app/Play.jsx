@@ -13,9 +13,6 @@ const Play = () => {
     if (!disabled) {
       setSelectedOption(option);
       setDisabled(true);
-
-      const player1DocRef = doc(db, "rps", "player1");
-      await updateDoc(player1DocRef, { p1: option, p1state: "ready" });
     }
   };
 
@@ -25,20 +22,16 @@ const Play = () => {
     setPlayer2State(null);
     setDisabled(false);
 
-    const player1DocRef = doc(db, "rps", "player1");
-    await updateDoc(player1DocRef, { p1: "", p1state: "" });
-
     const player2DocRef = doc(db, "rps", "player2");
     await updateDoc(player2DocRef, { p2: "", p2state: "" });
   };
 
   useEffect(() => {
-    const player2DocRef = doc(db, "rps", "player2");
+    const player2DocRef = doc(db, "rps", "state");
     const unsubscribe = onSnapshot(player2DocRef, (doc) => {
       if (doc.exists()) {
         const data = doc.data();
         setPlayer2Option(data.p2);
-        setPlayer2State(data.p2state);
 
         if (selectedOption && data.p2) {
           const winner = determineWinner(selectedOption, data.p2);
