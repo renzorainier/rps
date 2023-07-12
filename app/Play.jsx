@@ -22,7 +22,7 @@ const Play = () => {
     setDisabled(false);
 
     const player2DocRef = doc(db, "rps", "player2");
-    await updateDoc(player2DocRef, { p2: "", p2state: "" });
+    await updateDoc(player2DocRef, { p2: "" });
   };
 
   useEffect(() => {
@@ -60,7 +60,7 @@ const Play = () => {
   };
 
   const handleUpdateWinner = async (winner) => {
-    const player2DocRef = doc(db, "rps", "player2");
+    const player2DocRef = doc(db, "rps", "state");
     await updateDoc(player2DocRef, { winner });
   };
 
