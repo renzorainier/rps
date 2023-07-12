@@ -36,6 +36,7 @@ const Play = () => {
           const winner = determineWinner(selectedOption, data.p2);
           setGameResult(winner);
           handleUpdateWinner(winner);
+          handleResetGame();
         }
       }
     });
