@@ -7,6 +7,7 @@ const Play = () => {
   const [player2Option, setPlayer2Option] = useState(null);
   const [gameResult, setGameResult] = useState(null);
   const [disabled, setDisabled] = useState(false);
+  const [previousResults, setPreviousResults] = useState([]);
 
   const handleOptionClick = (option) => {
     if (!disabled) {
@@ -22,7 +23,7 @@ const Play = () => {
     setDisabled(false);
 
     const player2DocRef = doc(db, "rps", "state");
-    await updateDoc(player2DocRef, { p2: "" });
+    await updateDoc(player2DocRef, { p2: "", winner: "" });
   };
 
   useEffect(() => {
@@ -35,6 +36,7 @@ const Play = () => {
         if (selectedOption && data.p2 && !gameResult) {
           const winner = determineWinner(selectedOption, data.p2);
           setGameResult(winner);
+          setPreviousResults((prevResults) => [...prevResults, winner]);
           handleUpdateWinner(winner);
         }
       }
@@ -82,6 +84,22 @@ const Play = () => {
           </button>
         ))}
       </div>
+      {previousResults.length > 0 && (
+        <div className="mt-4">
+          <h3>Previous Results:</h3>
+          <ul>
+            {previousResults.map((result, index) => (
+              <li key={index}>{result}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+      <button
+        className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mt-4"
+        onClick={handleResetGame}
+      >
+        Reset Game
+      </button>
     </div>
   );
 };
