@@ -22,33 +22,26 @@ const Play = () => {
     setGameResult(null);
     setDisabled(false);
 
-    const player2DocRef = doc(db, "rps", "state");
-    await updateDoc(player2DocRef, { p2: "", winner: "" });
+    await updateGameState({ p2: "", winner: "" });
   };
 
   useEffect(() => {
     const player2DocRef = doc(db, "rps", "state");
     const unsubscribe = onSnapshot(player2DocRef, (doc) => {
-      if (doc.exists()) {
-        const data = doc.data();
-        setPlayer2Option(data.p2);
+      const data = doc.data();
+      setPlayer2Option(data.p2);
 
-        if (selectedOption && data.p2 && !gameResult) {
-          const winner = determineWinner(selectedOption, data.p2);
-          setGameResult(winner);
-          handleUpdateWinner(winner);
-        }
+      if (selectedOption && data.p2 && !gameResult) {
+        const winner = determineWinner(selectedOption, data.p2);
+        setGameResult(winner);
+        handleUpdateWinner(winner);
       }
     });
-
-    if (gameResult) {
-      setPreviousResults((prevResults) => [...prevResults, gameResult]);
-    }
 
     return () => {
       unsubscribe();
     };
-  }, [selectedOption, gameResult]);
+  }, [selectedOption]);
 
   const determineWinner = (option1, option2) => {
     if (option1 === option2) {
@@ -65,9 +58,19 @@ const Play = () => {
   };
 
   const handleUpdateWinner = async (winner) => {
-    const player2DocRef = doc(db, "rps", "state");
-    await updateDoc(player2DocRef, { winner });
+    await updateGameState({ winner });
   };
+
+  const updateGameState = async (data) => {
+    const player2DocRef = doc(db, "rps", "state");
+    await updateDoc(player2DocRef, data);
+  };
+
+  useEffect(() => {
+    if (gameResult) {
+      setPreviousResults((prevResults) => [...prevResults, gameResult]);
+    }
+  }, [gameResult]);
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
