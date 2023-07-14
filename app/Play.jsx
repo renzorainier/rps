@@ -47,7 +47,7 @@ const Play = () => {
     if (gameResult) {
       setPreviousResults((prevResults) => [...prevResults, gameResult]);
       setDisabled(false); // Enable buttons after game result
-      setTimeout(handleResetGame, 2000); // Reset game after 2 seconds
+      setTimeout(handleResetGame, 1000); // Reset game after 2 seconds
     }
   }, [gameResult]);
 
