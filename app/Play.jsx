@@ -43,12 +43,6 @@ const Play = () => {
     };
   }, [selectedOption]);
 
-  useEffect(() => {
-    if (!gameResult) {
-      handleResetGame();
-    }
-  }, [disabled]);
-
   const determineWinner = (option1, option2) => {
     if (option1 === option2) {
       return "Draw";
