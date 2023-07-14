@@ -22,6 +22,7 @@ const Player2 = () => {
       const data = doc.data();
       const winner = data?.winner || null;
       setGameResult(winner);
+      setDisabled(false);
       setPreviousResults((prevResults) => [...prevResults, winner]);
     });
 
