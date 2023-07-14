@@ -53,6 +53,7 @@ const Play = () => {
   const determineWinner = (option1, option2) => {
     if (option1 === option2) {
       return "Draw";
+      handleResetGame();
     } else if (
       (option1 === "rock" && option2 === "scissors") ||
       (option1 === "scissors" && option2 === "paper") ||
