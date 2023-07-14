@@ -43,6 +43,12 @@ const Play = () => {
     };
   }, [selectedOption]);
 
+  useEffect(() => {
+    if (!disabled) {
+      handleResetGame();
+    }
+  }, [disabled]);
+
   const determineWinner = (option1, option2) => {
     if (option1 === option2) {
       return "Draw";
@@ -84,7 +90,8 @@ const Play = () => {
               option === selectedOption ? "bg-blue-700" : ""
             }`}
             onClick={() => handleOptionClick(option)}
-            disabled={disabled}>
+            disabled={disabled}
+          >
             {option.charAt(0).toUpperCase() + option.slice(1)}
           </button>
         ))}
@@ -101,7 +108,8 @@ const Play = () => {
       )}
       <button
         className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mt-4"
-        onClick={handleResetGame}>
+        onClick={handleResetGame}
+      >
         Reset Game
       </button>
     </div>
