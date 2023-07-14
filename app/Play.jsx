@@ -44,10 +44,11 @@ const Play = () => {
   }, [selectedOption]);
 
   useEffect(() => {
-    if (!disabled) {
+    if (gameResult) {
+      setPreviousResults((prevResults) => [...prevResults, gameResult]);
       handleResetGame();
     }
-  }, [disabled]);
+  }, [gameResult]);
 
   const determineWinner = (option1, option2) => {
     if (option1 === option2) {
@@ -71,12 +72,6 @@ const Play = () => {
     const player2DocRef = doc(db, "rps", "state");
     await updateDoc(player2DocRef, data);
   };
-
-  useEffect(() => {
-    if (gameResult) {
-      setPreviousResults((prevResults) => [...prevResults, gameResult]);
-    }
-  }, [gameResult]);
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
