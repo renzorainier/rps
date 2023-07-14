@@ -44,7 +44,7 @@ const Play = () => {
   }, [selectedOption]);
 
   useEffect(() => {
-    if (!disabled) {
+    if (!gameResult) {
       handleResetGame();
     }
   }, [disabled]);
