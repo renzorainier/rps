@@ -43,6 +43,14 @@ const Play = () => {
     };
   }, [selectedOption]);
 
+  useEffect(() => {
+    if (gameResult) {
+      setPreviousResults((prevResults) => [...prevResults, gameResult]);
+      setDisabled(false); // Enable buttons after game result
+      setTimeout(handleResetGame, 2000); // Reset game after 2 seconds
+    }
+  }, [gameResult]);
+
   const determineWinner = (option1, option2) => {
     if (option1 === option2) {
       return "Draw";
@@ -65,12 +73,6 @@ const Play = () => {
     const player2DocRef = doc(db, "rps", "state");
     await updateDoc(player2DocRef, data);
   };
-
-  useEffect(() => {
-    if (gameResult) {
-      setPreviousResults((prevResults) => [...prevResults, gameResult]);
-    }
-  }, [gameResult]);
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
@@ -100,12 +102,6 @@ const Play = () => {
           </ul>
         </div>
       )}
-      <button
-        className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mt-4"
-        onClick={handleResetGame}
-      >
-        Reset Game
-      </button>
     </div>
   );
 };
