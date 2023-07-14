@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { collection, doc, updateDoc, onSnapshot } from "firebase/firestore";
+import { doc, updateDoc, onSnapshot } from "firebase/firestore";
 import { db } from "./firebase.js";
 
 const Player2 = () => {
@@ -12,25 +12,35 @@ const Player2 = () => {
     if (!disabled) {
       setSelectedOption(option);
       setDisabled(true);
+      updateGameState({ p2: option });
     }
   };
 
-  const handleResetGame = async () => {
-    setSelectedOption(null);
-    setPlayer2Option(null);
-    setGameResult(null);
-    setDisabled(false);
+  useEffect(() => {
+    const player2DocRef = doc(db, "rps", "state");
+    const unsubscribe = onSnapshot(player2DocRef, (doc) => {
+      const data = doc.data();
+      const winner = data?.winner || null;
+      setGameResult(winner);
+      setPreviousResults((prevResults) => [...prevResults, winner]);
+    });
 
-    await updateGameState({ p2: "", winner: "" });
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  const updateGameState = async (data) => {
+    const player2DocRef = doc(db, "rps", "state");
+    await updateDoc(player2DocRef, data);
   };
-
-
-
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
-      <div className="text-4xl text-black mb-4">{selectedOption}</div>
-      {gameResult && <div className="text-lg mb-4">{gameResult}</div>}
+      {selectedOption && (
+        <div className="text-4xl text-black mb-4">Selected: {selectedOption}</div>
+      )}
+      {gameResult && <div className="text-lg mb-4">Winner: {gameResult}</div>}
       <div className="space-x-4">
         {["rock", "paper", "scissors"].map((option) => (
           <button

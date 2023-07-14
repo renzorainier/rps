@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { collection, doc, updateDoc, onSnapshot } from "firebase/firestore";
 import { db } from "./firebase.js";
 
+
+
 const Play = () => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [player2Option, setPlayer2Option] = useState(null);
