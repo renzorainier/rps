@@ -8,7 +8,6 @@ const Play = () => {
   const [gameResult, setGameResult] = useState(null);
   const [disabled, setDisabled] = useState(false);
   const [previousResults, setPreviousResults] = useState([]);
-  const [loading, setLoading] = useState(false);
 
   const handleOptionClick = (option) => {
     if (!disabled) {
@@ -22,16 +21,8 @@ const Play = () => {
     setPlayer2Option(null);
     setGameResult(null);
     setDisabled(false);
-    setLoading(true);
 
-    try {
-      await updateGameState({ p2: "", winner: "" });
-    } catch (error) {
-      console.log("Error resetting game:", error);
-      // Handle error state or show an error message to the user
-    } finally {
-      setLoading(false);
-    }
+    await updateGameState({ p2: "", winner: "" });
   };
 
   useEffect(() => {
@@ -50,7 +41,7 @@ const Play = () => {
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, [selectedOption]);
 
   useEffect(() => {
     if (gameResult) {
@@ -74,12 +65,7 @@ const Play = () => {
   };
 
   const handleUpdateWinner = async (winner) => {
-    try {
-      await updateGameState({ winner });
-    } catch (error) {
-      console.log("Error updating winner:", error);
-      // Handle error state or show an error message to the user
-    }
+    await updateGameState({ winner });
   };
 
   const updateGameState = async (data) => {
@@ -99,7 +85,7 @@ const Play = () => {
               option === selectedOption ? "bg-blue-700" : ""
             }`}
             onClick={() => handleOptionClick(option)}
-            disabled={disabled || loading}
+            disabled={disabled}
           >
             {option.charAt(0).toUpperCase() + option.slice(1)}
           </button>
@@ -118,7 +104,6 @@ const Play = () => {
       <button
         className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mt-4"
         onClick={handleResetGame}
-        disabled={disabled || loading}
       >
         Reset Game
       </button>
@@ -127,6 +112,8 @@ const Play = () => {
 };
 
 export default Play;
+
+
 
 
 // import React, { useState, useEffect } from "react";
