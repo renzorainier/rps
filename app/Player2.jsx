@@ -31,17 +31,30 @@ const Player2 = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (gameResult) {
+      setSelectedOption(null); // Reset selected option after winner is fetched
+    }
+  }, [gameResult]);
+
   const updateGameState = async (data) => {
     const player2DocRef = doc(db, "rps", "state");
     await updateDoc(player2DocRef, data);
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      {selectedOption && (
-        <div className="text-4xl text-black mb-4">Selected: {selectedOption}</div>
+    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
+      <div className="text-4xl text-black mb-8 font-bold">
+        Rock Paper Scissors
+      </div>
+      <div className="text-3xl text-black mb-4 font-bold">
+        Your Choice: {selectedOption}
+      </div>
+      {gameResult && (
+        <div className="text-2xl text-black mb-6 font-bold">
+          Winner: {gameResult}
+        </div>
       )}
-      {gameResult && <div className="text-lg mb-4">Winner: {gameResult}</div>}
       <div className="space-x-4">
         {["rock", "paper", "scissors"].map((option) => (
           <button
@@ -58,7 +71,7 @@ const Player2 = () => {
       </div>
       {previousResults.length > 0 && (
         <div className="mt-4">
-          <h3>Previous Results:</h3>
+          <h3 className="text-lg font-bold mb-2">Previous Results:</h3>
           <ul>
             {previousResults.map((result, index) => (
               <li key={index}>{result}</li>
@@ -68,6 +81,7 @@ const Player2 = () => {
       )}
     </div>
   );
+
 };
 
 export default Player2;

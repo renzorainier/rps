@@ -1,0 +1,78 @@
+.play-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f1f1f1;
+}
+
+.play-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.play-header h1 {
+  font-size: 28px;
+  color: #333;
+}
+
+.previous-results {
+  margin-top: 10px;
+}
+
+.previous-results h3 {
+  font-size: 18px;
+  color: #666;
+}
+
+.previous-results ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.previous-results li {
+  font-size: 14px;
+  color: #999;
+}
+
+.play-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.game-result {
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.options {
+  display: flex;
+  justify-content: center;
+}
+
+.option-btn {
+  background-color: #3498db;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin: 0 10px;
+}
+
+.option-btn:hover {
+  background-color: #2980b9;
+}
+
+.option-btn.selected {
+  background-color: #2980b9;
+}

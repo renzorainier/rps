@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { collection, doc, updateDoc, onSnapshot } from "firebase/firestore";
+import { doc, updateDoc, onSnapshot } from "firebase/firestore";
 import { db } from "./firebase.js";
-
-
 
 const Play = () => {
   const [selectedOption, setSelectedOption] = useState(null);
@@ -77,29 +75,39 @@ const Play = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      <div className="text-4xl text-black mb-4">{selectedOption}</div>
-      {gameResult && <div className="text-lg mb-4">{gameResult}</div>}
+    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
+      <div className="text-4xl text-black mb-8 font-bold">
+        Rock Paper Scissors
+      </div>
+      <div className="text-3xl text-black mb-4 font-bold">
+        Your Choice: {selectedOption}
+      </div>
+      {gameResult && (
+        <div className="text-2xl text-black mb-6 font-bold">
+          Result: {gameResult}
+        </div>
+      )}
       <div className="space-x-4">
         {["rock", "paper", "scissors"].map((option) => (
           <button
             key={option}
-            className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ${
+            className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg ${
               option === selectedOption ? "bg-blue-700" : ""
             }`}
             onClick={() => handleOptionClick(option)}
-            disabled={disabled}
-          >
+            disabled={disabled}>
             {option.charAt(0).toUpperCase() + option.slice(1)}
           </button>
         ))}
       </div>
       {previousResults.length > 0 && (
-        <div className="mt-4">
-          <h3>Previous Results:</h3>
-          <ul>
+        <div className="mt-8">
+          <h3 className="text-lg font-bold mb-2">Previous Results:</h3>
+          <ul className="list-disc pl-6">
             {previousResults.map((result, index) => (
-              <li key={index}>{result}</li>
+              <li key={index} className="text-gray-800">
+                {result}
+              </li>
             ))}
           </ul>
         </div>
