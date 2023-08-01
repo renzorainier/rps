@@ -2,3 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
+body.urbanist-font {
+  font-family: 'Urbanist', sans-serif;
+}
